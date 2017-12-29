@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crab.mapper.CrabUserMapper" >
+  <resultMap id="BaseResultMap" type="com.crab.domain.CrabUser" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="login_pwd" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+    <result column="member_no" property="memberNo" jdbcType="VARCHAR" />
+    <result column="identification_status" property="identificationStatus" jdbcType="VARCHAR" />
+    <result column="registration_time" property="registrationTime" jdbcType="TIMESTAMP" />
+    <result column="user_source" property="userSource" jdbcType="VARCHAR" />
+    <result column="account_no_status" property="accountNoStatus" jdbcType="VARCHAR" />
+    <result column="pwd_error_count" property="pwdErrorCount" jdbcType="SMALLINT" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creator_id" property="creatorId" jdbcType="INTEGER" />
+    <result column="last_operator" property="lastOperator" jdbcType="VARCHAR" />
+    <result column="last_operator_id" property="lastOperatorId" jdbcType="VARCHAR" />
+    <result column="last_operator_time" property="lastOperatorTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="yn" property="yn" jdbcType="SMALLINT" />
+  </resultMap>
+</mapper>
