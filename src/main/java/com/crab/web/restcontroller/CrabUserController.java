@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * Created by lyh on 2017/12/29.
  */
 @Controller
-@RequestMapping(value = "/crab/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/page/crab/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CrabUserController extends BaseController{
 
     @Resource
