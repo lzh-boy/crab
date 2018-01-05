@@ -8,6 +8,7 @@ import com.crab.model.vo.UserLoginVO;
 import com.crab.service.CrabUserService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -30,7 +31,7 @@ public class CrabUserController extends BaseController{
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Wrapper<UserLoginVO> loginIn(UserLoginDTO userLoginDTO) {
+    public Wrapper<UserLoginVO> loginIn(@RequestBody UserLoginDTO userLoginDTO) {
         logger.info("用户登录 ==> {}", userLoginDTO);
         Wrapper<UserLoginVO> result;
         try {

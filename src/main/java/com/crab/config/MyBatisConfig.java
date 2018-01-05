@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -15,20 +16,33 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Properties;
 
+/**
+ * MyBatis配置文件
+ * @author lyh
+ */
 @Configuration
 @EnableTransactionManagement
 @MapperScan(basePackages = "com.crab.mapper")
-public class MybatisConfig {
+public class MyBatisConfig {
 
-    @Bean
-    public DataSource dataSource() {
-        return new DataSource();
-    }
+//    @Bean
+//    @ConfigurationProperties(prefix = "spring.datasource")
+//    public DataSource dataSource() {
+//        return new DataSource();
+//    }
+//    上下这两种写法是一样的!
+//    @Autowired
+//    private DataSource dataSource;
+//
 
-    @Bean
+    @Autowired
+    private DataSource dataSource;
+
+    @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource());
+        sqlSessionFactoryBean.setDataSource(dataSource);
+        // 别名
         sqlSessionFactoryBean.setTypeAliasesPackage("com.crab.mapper");
 
         //分页插件
@@ -54,7 +68,7 @@ public class MybatisConfig {
 
     @Bean
     public PlatformTransactionManager platformTransactionManager() {
-        return new DataSourceTransactionManager(dataSource());
+        return new DataSourceTransactionManager(dataSource);
     }
 
 }
