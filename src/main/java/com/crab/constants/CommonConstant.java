@@ -14,6 +14,8 @@ public class CommonConstant {
 
     public static final Integer INTEGER_NO = 0;
 
+    public static final String PWD_SECRET_KEY = "CRAB_PWD_SECRET_KEY";
 
+    public static final String TOKEN_KEY = "CRAB_TOKEN_KEY";
 
 }

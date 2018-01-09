@@ -5,16 +5,22 @@ import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import tk.mybatis.mapper.common.Mapper;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public abstract class BaseService<T> implements IService<T> {
 
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	@Resource
+	private StringRedisTemplate rt;
 
 	@Autowired
 	protected Mapper<T> mapper;
@@ -122,6 +128,12 @@ public abstract class BaseService<T> implements IService<T> {
 	@Override
 	public List<T> selectByExampleAndRowBounds(Object example, RowBounds rowBounds) {
 		return mapper.selectByExampleAndRowBounds(example, rowBounds);
+	}
+
+	@Override
+	public Object getRedisValue(String key) {
+		ValueOperations<String, String> stringStringValueOperations = rt.opsForValue();
+		return stringStringValueOperations.get(key);
 	}
 
     protected HttpServletRequest getRequest() {

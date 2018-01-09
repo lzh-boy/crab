@@ -29,6 +29,12 @@ public class CrabUser {
     private String loginPwd;
 
     /**
+     * 用户昵称
+     */
+    @Column(name = "nick_name")
+    private String nickName;
+
+    /**
      * 流水号
      */
     @Column(name = "serial_no")

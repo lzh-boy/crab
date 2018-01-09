@@ -11,6 +11,6 @@ import com.crab.model.vo.UserLoginVO;
  */
 public interface CrabUserService extends IService<CrabUser>{
 
-    UserLoginVO userLogin(UserLoginDTO userLoginDTO) throws BusinessException;
+    UserLoginVO userLogin(UserLoginDTO userLoginDTO) throws Exception;
 
 }

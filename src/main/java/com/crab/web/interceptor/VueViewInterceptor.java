@@ -1,5 +1,7 @@
 package com.crab.web.interceptor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class VueViewInterceptor implements HandlerInterceptor{
 
+    private final Logger logger = LoggerFactory.getLogger(VueViewInterceptor.class);
+
     /**
      * controller执行前调用此方法
      * return false表示中止执行, return true表示继续执行
@@ -26,8 +30,9 @@ public class VueViewInterceptor implements HandlerInterceptor{
      */
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+        logger.info("进入Vue拦截器");
 
-        return false;
+        return true;
     }
 
     /**

@@ -64,4 +64,5 @@ public interface IService<T> {
 	/** 根据example条件和RowBounds进行分页查询 */
 	List<T> selectByExampleAndRowBounds(Object example, RowBounds rowBounds);
 
+	Object getRedisValue(String key);
 }

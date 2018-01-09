@@ -8,6 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import javax.annotation.Resource;
 
+/**
+ * mvc跨域配置
+ * @author lyh
+ */
 @Configuration
 public class CrossDomainConfig {
 

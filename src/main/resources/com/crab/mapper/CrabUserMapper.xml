@@ -8,6 +8,7 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
     <result column="login_pwd" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
     <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
     <result column="member_no" property="memberNo" jdbcType="VARCHAR" />
     <result column="identification_status" property="identificationStatus" jdbcType="VARCHAR" />

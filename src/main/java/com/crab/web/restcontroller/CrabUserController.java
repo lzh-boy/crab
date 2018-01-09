@@ -27,6 +27,7 @@ public class CrabUserController extends BaseController{
 
     /**
      * 用户登录
+     * 拦截器不拦
      * @param userLoginDTO
      * @return
      */
@@ -35,11 +36,12 @@ public class CrabUserController extends BaseController{
         logger.info("用户登录 ==> {}", userLoginDTO);
         Wrapper<UserLoginVO> result;
         try {
+
             UserLoginVO userLoginVO = crabUserService.userLogin(userLoginDTO);
             result = new Wrapper<>(Wrapper.SUCCESS_CODE, Wrapper.SUCCESS_MSG, userLoginVO);
         } catch (BusinessException ex) {
             logger.error("用户登录出错 ==> {}", ex);
-            result = new Wrapper<UserLoginVO>(Wrapper.ERROR_CODE, ex.getMessage());
+            result = new Wrapper<>(Wrapper.ERROR_CODE, ex.getMessage());
         } catch (Exception ex) {
             logger.error("用户登录出错 ==> {}", ex);
             result = WrapMapper.error();
