@@ -6,18 +6,20 @@ import com.crab.common.model.vo.wrap.Wrapper;
 import com.crab.model.dto.UserLoginDTO;
 import com.crab.model.vo.UserLoginVO;
 import com.crab.service.CrabUserService;
+import com.crab.utils.CookieUtil;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
 /**
  * Created by lyh on 2017/12/29.
  */
-@Controller
+@RestController
 @RequestMapping(value = "/page/crab/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CrabUserController extends BaseController{
 
@@ -36,9 +38,8 @@ public class CrabUserController extends BaseController{
         logger.info("用户登录 ==> {}", userLoginDTO);
         Wrapper<UserLoginVO> result;
         try {
-
             UserLoginVO userLoginVO = crabUserService.userLogin(userLoginDTO);
-            result = new Wrapper<>(Wrapper.SUCCESS_CODE, Wrapper.SUCCESS_MSG, userLoginVO);
+            result = WrapMapper.success(userLoginVO);
         } catch (BusinessException ex) {
             logger.error("用户登录出错 ==> {}", ex);
             result = new Wrapper<>(Wrapper.ERROR_CODE, ex.getMessage());

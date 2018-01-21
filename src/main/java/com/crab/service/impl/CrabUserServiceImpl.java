@@ -48,15 +48,18 @@ public class CrabUserServiceImpl extends BaseService<CrabUser> implements CrabUs
             logger.error("用户登录出错! 参数有误!");
             throw new BusinessException("登录失败! 登录信息有误!");
         }
+        // 取用户的登录密码的秘钥PWD_SECRET_KEY = "CRAB_PWD_SECRET_KEY";
         Object redisValue = getRedisValue(PWD_SECRET_KEY);
         if (redisValue == null ) {
-            logger.error("用户的pwd_secret_key在redis里过期了");
+            logger.error("用户的pwd_secret_key在redis里过期了, 需要重新登录获取用户登录密码秘钥");
             throw new BusinessException("用户登录过期");
         }
         String pwdSecretKey = (String) redisValue;
-        // 对用户名和密码进行解密
+        // 对用户名和密码进行解密(会在前端用户登录时使用相同的秘钥对用户名和密码进行加密)
         String decryptName = HttpAesUtil.decrypt(loginName, pwdSecretKey, false, pwdSecretKey);
         String decryptPwd = HttpAesUtil.decrypt(loginPwd, pwdSecretKey, false, pwdSecretKey);
+
+        //去数据库中查询是否有该用户的信息,且校验该用户信息是否正确和有效
         CrabUser crabUser = new CrabUser();
         crabUser.setLoginName(decryptName);
         crabUser.setLoginPwd(decryptPwd);
@@ -66,16 +69,30 @@ public class CrabUserServiceImpl extends BaseService<CrabUser> implements CrabUs
             throw new BusinessException("登录失败! 账号或密码有误!");
         }
         CrabUser crabUserFinded = crabUsers.get(0);
+        if (!this.checkUserValidate(crabUserFinded)) {
+            logger.error("用户无效或被禁用");
+            throw new BusinessException("用户无效或被禁用");
+        }
         UserLoginVO userLoginVO = new UserLoginVO();
         userLoginVO.setUserId(crabUserFinded.getId());
         userLoginVO.setSerialNo(crabUserFinded.getSerialNo());
         userLoginVO.setUserName(crabUserFinded.getLoginName());
         userLoginVO.setNickName(crabUserFinded.getNickName());
+        // 生成TOKEN存放到本地缓存里
         String token =  tokenService.encodeToken(userLoginVO);
         // 将TOKEN加入本地缓存
         ThreadLocalMap.put(TOKEN_KEY, token);
         userLoginVO.setToken(token);
         return userLoginVO;
+    }
+
+    private boolean checkUserValidate(CrabUser crabUserFinded) {
+        // fixme
+        if (true) {
+            return true;
+        }
+
+        return false;
     }
 
 }

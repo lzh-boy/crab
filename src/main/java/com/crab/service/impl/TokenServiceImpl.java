@@ -12,22 +12,55 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
 import static com.crab.constants.CommonConstant.TOKEN_KEY;
 
 /**
+ * @scope注解
+ * singleton		:单例的.(默认)
+ * prototype		:多例的.-->每次getBean都会得到不同的实例
+ * request		:应用在web工程中的,创建一个Bean的实例,将Bean的实例存入到request的域中.
+ * session		:应用在web工程中的,创建一个Bean的实例,将Bean的实例存入到session的域中.
+ * globalsession	:应用在web工程中的,集群环境.如果没有集群环境的话,配置globalsession与session一致.
  * @author lyh
  */
-@Service
+@Service(value = "tokenService")
+@Scope(value = "singleton")
 public class TokenServiceImpl implements TokenService{
 
     public final Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
+
+
+    @PostConstruct
+    public void init() {
+        System.out.println("初始化");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("销毁");
+    }
+
+    /*
+    * @Transactional
+    * value: 指定要使用的事务管理器
+    * propagation 指定事务传播行为
+    * isolation 指定事务隔离行为
+    * */
+    @Transactional
+    public void update() {
+        System.out.println("+1");
+    }
 
     @Resource
     private StringRedisTemplate rt;

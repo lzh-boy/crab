@@ -1,5 +1,6 @@
 package com.crab.web.interceptor;
 
+import com.crab.common.utils.PublicUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,16 @@ public class VueViewInterceptor implements HandlerInterceptor{
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         logger.info("进入Vue拦截器");
-
+        logger.info("进入Vue拦截器");
+        String authHeader = httpServletRequest.getHeader("Authorization");
+        if (PublicUtils.isNull(authHeader)) {
+            logger.error("用户请求无证书");
+        }
+        if (!PublicUtils.isNull(authHeader)) {
+            String token = authHeader.substring(7);
+            logger.info("token ==> {}", token);
+        }
+        logger.info("进入Vue拦截器 authHeader===> {}", authHeader);
         return true;
     }
 
