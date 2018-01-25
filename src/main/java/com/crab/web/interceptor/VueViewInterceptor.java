@@ -6,6 +6,7 @@ import com.crab.service.CrabUserService;
 import com.crab.utils.PublicUtils;
 import com.crab.utils.ThreadLocalMap;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,11 +47,12 @@ public class VueViewInterceptor implements HandlerInterceptor{
         try {
             if (PublicUtils.isNull(authHeader)) {
                 log.error("用户请求无证书");
+                throw new BusinessException("登录出错!");
             }
             if (!PublicUtils.isNull(authHeader)) {
                 String token = authHeader.substring(7);
                 log.info("token ==> {}", token);
-                if (PublicUtils.isNull(token)) {
+                if (PublicUtils.isNull(token) || StringUtils.equals("null", token)) {
                     log.error("token信息为空!");
                     throw new BusinessException("登录出错!");
                 }
