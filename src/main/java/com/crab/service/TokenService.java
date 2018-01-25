@@ -9,5 +9,7 @@ public interface TokenService {
 
     String encodeToken(UserLoginVO crabUser) throws Exception;
 
+    String getTokenKey();
+
     String decodeToken(CrabUser crabUser);
 }

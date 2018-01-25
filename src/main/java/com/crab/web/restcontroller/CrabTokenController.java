@@ -2,11 +2,10 @@ package com.crab.web.restcontroller;
 
 import com.crab.common.model.vo.wrap.WrapMapper;
 import com.crab.common.model.vo.wrap.Wrapper;
-import com.crab.common.utils.PublicUtils;
 import com.crab.service.TokenService;
+import com.crab.utils.PublicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.MediaType;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
-import static com.crab.constants.CommonConstant.PWD_SECRET_KEY;
+import static com.crab.constants.AuthConstant.PWD_SECRET_KEY;
 
 
 @RestController
@@ -25,10 +24,11 @@ import static com.crab.constants.CommonConstant.PWD_SECRET_KEY;
 public class CrabTokenController extends BaseController{
 
     // @Autowired默认是按类型注入, 配合Qualifier实现按名称注入
+    // @Resource是按名称注入
     @Autowired
     @Qualifier(value = "tokenService")
     private TokenService tokenService;
-    // @Resource是按名称注入
+
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
@@ -41,12 +41,13 @@ public class CrabTokenController extends BaseController{
     public Wrapper getPwdSecretKey() {
         Wrapper result;
         try {
-            if (!PublicUtils.isNull(this.getSecretKey())) {
-                return WrapMapper.ok();
+            String secretKey = this.getSecretKey();
+            if (!PublicUtils.isNull(secretKey)) {
+                return WrapMapper.success(secretKey);
             }
             String pwdSecretKey = tokenService.getSecretKey();
             this.setSecretKey(pwdSecretKey);
-            result = WrapMapper.ok();
+            result = WrapMapper.success(pwdSecretKey);
         } catch (Exception ex) {
             logger.error("用户登录出错 ==> {}", ex);
             result = WrapMapper.error();

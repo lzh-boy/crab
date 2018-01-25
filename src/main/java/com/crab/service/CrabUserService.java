@@ -1,7 +1,7 @@
 package com.crab.service;
 
-import com.crab.common.exception.BusinessException;
 import com.crab.domain.CrabUser;
+import com.crab.model.bo.UserMsgBO;
 import com.crab.model.dto.UserLoginDTO;
 import com.crab.model.vo.UserLoginVO;
 
@@ -13,4 +13,5 @@ public interface CrabUserService extends IService<CrabUser>{
 
     UserLoginVO userLogin(UserLoginDTO userLoginDTO) throws Exception;
 
+    UserMsgBO getUserMsgByToken(String token) throws Exception;
 }

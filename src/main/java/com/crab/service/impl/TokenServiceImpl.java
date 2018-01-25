@@ -1,11 +1,12 @@
 package com.crab.service.impl;
 
 import com.crab.common.exception.BusinessException;
-import com.crab.common.utils.PublicUtils;
 import com.crab.domain.CrabUser;
 import com.crab.model.vo.UserLoginVO;
 import com.crab.service.TokenService;
 import com.crab.utils.JacksonUtil;
+import com.crab.utils.MD5Util;
+import com.crab.utils.PublicUtils;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.joda.time.DateTime;
@@ -23,7 +24,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
-import static com.crab.constants.CommonConstant.TOKEN_KEY;
+import java.util.concurrent.TimeUnit;
+
+import static com.crab.constants.AuthConstant.TOKEN_KEY;
 
 /**
  * @scope注解
@@ -91,7 +94,7 @@ public class TokenServiceImpl implements TokenService{
         String token;
         try {
             token = Jwts.builder().setSubject(crabUser.getUserName()).claim("crabUserMsg", crabUserMsg)
-                    .setIssuedAt(now.toDate()).setExpiration(deadTime.toDate()).signWith(SignatureAlgorithm.ES256, tokenKey).compact();
+                    .setIssuedAt(now.toDate()).setExpiration(deadTime.toDate()).signWith(SignatureAlgorithm.HS256, tokenKey).compact();
         } catch (Exception ex) {
             logger.error("生成token失败 == > {}", ex);
             throw ex;
@@ -99,11 +102,16 @@ public class TokenServiceImpl implements TokenService{
         return token;
     }
 
-    private String getTokenKey() {
+    @Override
+    public String getTokenKey() {
         String tokenKey;
         Object tokenKeyFromRedis = this.getRedisValue(TOKEN_KEY);
         if (null == tokenKeyFromRedis) {
             tokenKey = PublicUtils.UUID();
+            ValueOperations<String, String> stringStringValueOperations = rt.opsForValue();
+            stringStringValueOperations.set(TOKEN_KEY, MD5Util.encodeByAES(tokenKey));
+            rt.expire(TOKEN_KEY, 1L, TimeUnit.DAYS);
+            return tokenKey;
         }
         tokenKey = (String) tokenKeyFromRedis;
         return tokenKey;
