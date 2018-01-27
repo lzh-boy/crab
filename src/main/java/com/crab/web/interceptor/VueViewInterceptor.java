@@ -1,6 +1,8 @@
 package com.crab.web.interceptor;
 
 import com.crab.common.exception.BusinessException;
+import com.crab.common.model.vo.wrap.Wrapper;
+import com.crab.config.RestConfig;
 import com.crab.model.bo.UserMsgBO;
 import com.crab.service.CrabUserService;
 import com.crab.utils.PublicUtils;
@@ -14,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Enumeration;
 
 import static com.crab.constants.AuthConstant.USER_MSG_KEY;
 
@@ -28,6 +32,8 @@ public class VueViewInterceptor implements HandlerInterceptor{
 
     @Resource
     private CrabUserService crabUserService;
+    @Resource
+    private RestConfig restConfig;
 
     /**
      * controller执行前调用此方法
@@ -40,16 +46,26 @@ public class VueViewInterceptor implements HandlerInterceptor{
      * @throws Exception
      */
     @Override
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {
         log.info("进入Vue拦截器");
-        log.info("进入Vue拦截器");
+        log.info("进入Vue拦截器--{}", httpServletRequest.getHeaderNames());
+        this.printHeaders(httpServletRequest);
         String authHeader = httpServletRequest.getHeader("Authorization");
+        log.info("authHeader => {}", authHeader);
         try {
+            //试调用不需要走认证!!!!!!!!!!!!!!!!!!!
+            //试调用不需要走认证!!!!!!!!!!!!!!!!!!!
+            //试调用不需要走认证!!!!!!!!!!!!!!!!!!!
+            //试调用不需要走认证!!!!!!!!!!!!!!!!!!!
+            if (httpServletRequest.getMethod().toUpperCase().equals("OPTIONS")) {
+                return true;
+            }
             if (PublicUtils.isNull(authHeader)) {
                 log.error("用户请求无证书");
                 throw new BusinessException("登录出错!");
             }
-            if (!PublicUtils.isNull(authHeader)) {
+
+//            if (!PublicUtils.isNull(authHeader)) {
                 String token = authHeader.substring(7);
                 log.info("token ==> {}", token);
                 if (PublicUtils.isNull(token) || StringUtils.equals("null", token)) {
@@ -61,24 +77,49 @@ public class VueViewInterceptor implements HandlerInterceptor{
                     log.error("登录过期或无法该token解析出有效信息");
                     throw new BusinessException("登录信息无效!");
                 }
-                ThreadLocalMap.put(USER_MSG_KEY, userMsgBO);
-            }
+//                ThreadLocalMap.put(USER_MSG_KEY, userMsgBO);
+//            }
             log.info("进入Vue拦截器 authHeader===> {}", authHeader);
         } catch (Exception ex) {
             log.error("用户登录出错 ===> {}", ex);
-            this.handleException(httpServletRequest, httpServletResponse, ex);
+            try {
+                this.handleException(httpServletRequest, httpServletResponse, ex);
+            } catch (IOException e) {
+                log.error("用户登录出错 ===> {}", ex);
+                return false;
+            }
             return false;
         }
         log.info("验权成功");
         return true;
     }
 
-    private void handleException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Exception ex) {
-        if (ex instanceof BusinessException) {
-
-        } else {
-
+    private void printHeaders(HttpServletRequest httpServletRequest) {
+        Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String value = httpServletRequest.getHeader(headerName);
+            log.info("Header --> name:{}, value:{}", headerName, value);
         }
+    }
+
+    private void handleException(HttpServletRequest request, HttpServletResponse res, Exception ex) throws IOException {
+        String msg;
+        if (ex instanceof BusinessException) {
+            msg = ex.getMessage();
+        } else {
+            msg = Wrapper.UNKOWN_ERROR_MSG;
+        }
+        request.getSession().removeAttribute("token");
+        res.resetBuffer();
+        StringBuffer allowOriginUrl = new StringBuffer().append(restConfig.getHomeUrl());
+        res.setHeader("Access-Control-Allow-Origin", allowOriginUrl.toString());
+        res.setHeader("Access-Control-Allow-Credentials","true");
+        res.setHeader("timeOut","true");
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+        res.getWriter().write(msg);
+        res.flushBuffer();
     }
 
     /**
