@@ -20,6 +20,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -138,6 +139,12 @@ public class CrabUserServiceImpl extends BaseService<CrabUser> implements CrabUs
             throw new BusinessException("token解密失败!");
         }
         return userMsgBO;
+    }
+
+    @Override
+    public void userLoginout(HttpServletRequest request, UserMsgBO userMsgByToken) {
+        logger.info("用户登出====> userMsgByToken{}", userMsgByToken);
+        // fixme 记录日志
     }
 
 }

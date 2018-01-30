@@ -9,20 +9,15 @@ import com.crab.model.dto.UserLoginDTO;
 import com.crab.model.vo.UserLoginVO;
 import com.crab.service.CrabUserMenuService;
 import com.crab.service.CrabUserService;
-import com.crab.utils.CookieUtil;
-import com.crab.utils.PublicUtils;
-import com.crab.utils.ThreadLocalMap;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
-import static com.crab.constants.AuthConstant.USER_MSG_KEY;
 
 /**
  * Created by lyh on 2017/12/29.
@@ -55,6 +50,28 @@ public class CrabUserController extends BaseController{
             result = new Wrapper<>(Wrapper.ERROR_CODE, ex.getMessage());
         } catch (Exception ex) {
             logger.error("用户登录出错 ==> {}", ex);
+            result = WrapMapper.error();
+        }
+        return result;
+    }
+
+    /**
+     * 用户登出
+     * @return
+     */
+    @RequestMapping(value = "/loginOut", method = RequestMethod.POST)
+    public Wrapper loginOut(HttpServletRequest request) {
+        logger.info("用户登出 ==>");
+        Wrapper result;
+        try {
+            UserMsgBO userMsgByToken = getUserMsgByToken();
+            crabUserService.userLoginout(request, userMsgByToken);
+            result = WrapMapper.ok();
+        } catch (BusinessException ex) {
+            logger.error("用户登出出错 ==> {}", ex);
+            result = new Wrapper(Wrapper.ERROR_CODE, ex.getMessage());
+        } catch (Exception ex) {
+            logger.error("用户登出出错 ==> {}", ex);
             result = WrapMapper.error();
         }
         return result;
