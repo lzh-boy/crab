@@ -29,7 +29,6 @@ import static com.crab.constants.AuthConstant.USER_MSG_KEY;
 @Slf4j
 public class VueViewInterceptor implements HandlerInterceptor{
 
-
     @Resource
     private CrabUserService crabUserService;
     @Resource
@@ -39,11 +38,11 @@ public class VueViewInterceptor implements HandlerInterceptor{
      * controller执行前调用此方法
      * return false表示中止执行, return true表示继续执行
      * 这里可以做登录校验, 权限拦截等
-     * @param httpServletRequest
-     * @param httpServletResponse
-     * @param o
-     * @return
-     * @throws Exception
+     * @param httpServletRequest 请求
+     * @param httpServletResponse 返回
+     * @param o 参数
+     * @return boolean
+     * @throws Exception 异常
      */
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {
@@ -58,6 +57,7 @@ public class VueViewInterceptor implements HandlerInterceptor{
             //试调用不需要走认证!!!!!!!!!!!!!!!!!!!
             //试调用不需要走认证!!!!!!!!!!!!!!!!!!!
             if (httpServletRequest.getMethod().toUpperCase().equals("OPTIONS")) {
+                log.info("试调用不需要走认证");
                 return true;
             }
             if (PublicUtils.isNull(authHeader)) {
@@ -65,20 +65,18 @@ public class VueViewInterceptor implements HandlerInterceptor{
                 throw new BusinessException("登录出错!");
             }
 
-//            if (!PublicUtils.isNull(authHeader)) {
-                String token = authHeader.substring(7);
-                log.info("token ==> {}", token);
-                if (PublicUtils.isNull(token) || StringUtils.equals("null", token)) {
-                    log.error("token信息为空!");
-                    throw new BusinessException("登录出错!");
-                }
-                UserMsgBO userMsgBO = crabUserService.getUserMsgByToken(token);
-                if (PublicUtils.isNull(userMsgBO)) {
-                    log.error("登录过期或无法该token解析出有效信息");
-                    throw new BusinessException("登录信息无效!");
-                }
-//                ThreadLocalMap.put(USER_MSG_KEY, userMsgBO);
-//            }
+            String token = authHeader.substring(7);
+            log.info("token ==> {}", token);
+            if (PublicUtils.isNull(token) || StringUtils.equals("null", token)) {
+                log.error("token信息为空!");
+                throw new BusinessException("登录出错!");
+            }
+            UserMsgBO userMsgBO = crabUserService.getUserMsgByToken(token);
+            if (PublicUtils.isNull(userMsgBO)) {
+                log.error("登录过期或无法该token解析出有效信息");
+                throw new BusinessException("登录信息无效!");
+            }
+            ThreadLocalMap.put(USER_MSG_KEY, userMsgBO);
             log.info("进入Vue拦截器 authHeader===> {}", authHeader);
         } catch (Exception ex) {
             log.error("用户登录出错 ===> {}", ex);

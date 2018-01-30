@@ -18,5 +18,4 @@ public class UserLoginVO implements Serializable{
     private String serialNo;
     private String token;
     private String nickName;
-
 }

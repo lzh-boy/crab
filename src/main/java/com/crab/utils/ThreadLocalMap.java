@@ -23,8 +23,8 @@ public class ThreadLocalMap {
         getThreadLocalContext().remove(key);
     }
 
-    public static void get(String key) {
-        getThreadLocalContext().get(key);
+    public static Object get(String key) {
+        return getThreadLocalContext().get(key);
     }
 
     private static class MapThreadLocal extends ThreadLocal<Map<String, Object>> {

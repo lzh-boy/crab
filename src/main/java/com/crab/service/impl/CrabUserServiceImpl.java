@@ -14,6 +14,7 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -127,7 +128,7 @@ public class CrabUserServiceImpl extends BaseService<CrabUser> implements CrabUs
             Date expiration = claims.getExpiration();
             DateTime now = new DateTime();
             DateTime expirationDate = new DateTime(expiration);
-            userMsgBO.setUserLoginVO(userLoginVO);
+            BeanUtils.copyProperties(userLoginVO, userMsgBO);
             // 如果过期时间小于30分钟, 需要续租
             if (now.plusMinutes(expiredRemainMinutes).isAfter(expirationDate)) {
                 // todo

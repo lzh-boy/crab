@@ -1,9 +1,12 @@
 package com.crab.model.bo;
 
-import com.crab.model.vo.UserLoginVO;
 import lombok.Data;
 
 @Data
 public class UserMsgBO {
-    private UserLoginVO userLoginVO;
+    private String userId;
+    private String userName;
+    private String serialNo;
+    private String token;
+    private String nickName;
 }

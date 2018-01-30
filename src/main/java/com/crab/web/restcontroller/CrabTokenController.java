@@ -39,6 +39,7 @@ public class CrabTokenController extends BaseController{
      */
     @RequestMapping(value = "getPwdSecretKey", method = RequestMethod.POST)
     public Wrapper getPwdSecretKey() {
+        logger.info("获取用户密码加密秘钥");
         Wrapper result;
         try {
             String secretKey = this.getSecretKey();

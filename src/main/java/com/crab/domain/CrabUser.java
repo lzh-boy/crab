@@ -103,7 +103,7 @@ public class CrabUser {
     private String lastLoginIp;
 
     /**
-     * 是否删除   0 删除  1 删除
+     * 是否删除   0 未删除  1 删除
      */
     private Short yn;
 

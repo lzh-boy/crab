@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crab.mapper.CrabUserMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.crab.domain.CrabUserMenu" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_serial_no" property="userSerialNo" jdbcType="VARCHAR" />
+    <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+  </resultMap>
+    <select id="queryUserMenuList" parameterType="com.crab.model.bo.UserMsgBO" resultType="com.crab.domain.CrabMenu">
+      SELECT
+          m.menu_code menuCode,
+          m.menu_name menuName
+      FROM
+          tbl_crab_user_menu um
+      LEFT JOIN tbl_crab_menu m ON um.menu_code = m.menu_code
+      LEFT JOIN tbl_crab_user u ON um.user_serial_no = u.serial_no
+      <where>
+        <choose>
+          <when test="serialNo != null and serialNo != ''">
+            u.serial_no = #{serialNo, jdbcType=VARCHAR};
+          </when>
+          <otherwise>
+            1!=1
+          </otherwise>
+        </choose>
+      </where>
+    </select>
+</mapper>
