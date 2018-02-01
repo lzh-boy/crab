@@ -63,7 +63,10 @@ public class MyBatisConfig {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         // 加载mapper文件
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/com/crab/mapper/*.xml"));
-        return sqlSessionFactoryBean.getObject();
+        SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
+//        TypeHandlerRegistry typeHandlerRegistry = sqlSessionFactory.getConfiguration().getTypeHandlerRegistry();
+//        typeHandlerRegistry.register(AccountNoStatusEnum.class, JdbcType.VARCHAR, EnumTypeHandler.class);
+        return sqlSessionFactory;
     }
 
     @Bean

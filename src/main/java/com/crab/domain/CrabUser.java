@@ -1,5 +1,6 @@
 package com.crab.domain;
 
+import com.crab.enums.AccountNoStatusEnum;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -68,7 +69,7 @@ public class CrabUser {
      * 账号状态: 0 正常 1 停用
      */
     @Column(name = "account_no_status")
-    private String accountNoStatus;
+    private AccountNoStatusEnum accountNoStatus;
 
     /**
      * 连续输错密码次数

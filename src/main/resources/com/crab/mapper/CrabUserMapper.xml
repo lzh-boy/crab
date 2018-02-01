@@ -24,4 +24,10 @@
     <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
     <result column="yn" property="yn" jdbcType="SMALLINT" />
   </resultMap>
+  <select id="queryUserByDTO" resultType="com.crab.domain.CrabUser">
+    SELECT
+    *
+    FROM
+    tbl_crab_user
+  </select>
 </mapper>
