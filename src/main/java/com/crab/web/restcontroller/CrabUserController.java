@@ -10,6 +10,7 @@ import com.crab.model.vo.UserLoginVO;
 import com.crab.service.CrabUserMenuService;
 import com.crab.service.CrabUserService;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -39,8 +41,9 @@ public class CrabUserController extends BaseController{
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Wrapper<UserLoginVO> loginIn(@RequestBody UserLoginDTO userLoginDTO) {
+    public Wrapper<UserLoginVO> loginIn(@RequestBody @Valid UserLoginDTO userLoginDTO, BindingResult bindingResult) {
         logger.info("用户登录 ==> {}", userLoginDTO);
+        logger.info("用户登录 bindingResult ==> {}", bindingResult);
         Wrapper<UserLoginVO> result;
         try {
             UserLoginVO userLoginVO = crabUserService.userLogin(userLoginDTO);

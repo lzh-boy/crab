@@ -1,7 +1,7 @@
 package com.crab.mapper;
 
 import com.crab.domain.CrabUser;
-import com.crab.enums.AccountNoStatusEnum;
+import com.crab.enums.AccountNoStatusEnumT;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.type.EnumTypeHandler;
@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface CrabUserMapper extends Mapper<CrabUser> {
     @Results(value = {
-        @Result(column = "accountNoStatus", property = "accountNoStatus",jdbcType = JdbcType.VARCHAR, javaType = AccountNoStatusEnum.class, typeHandler = EnumTypeHandler.class)
+        @Result(column = "accountNoStatus", property = "accountNoStatus",jdbcType = JdbcType.VARCHAR, javaType = AccountNoStatusEnumT.class, typeHandler = EnumTypeHandler.class)
     })
     List<CrabUser> queryUserByDTO();
 }

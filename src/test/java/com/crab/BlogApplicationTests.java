@@ -21,7 +21,7 @@ public class BlogApplicationTests {
 	@Test
 	public void contextLoads() {
 		List<CrabUser> crabUsers = crabUserMapper.queryUserByDTO();
-		log.info(crabUsers.get(0).getAccountNoStatus().getStatusCode());
+		log.info(String.valueOf(crabUsers.get(0).getAccountNoStatus().getStatusCode()));
 	}
 
 }
