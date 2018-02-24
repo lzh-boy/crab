@@ -1,10 +1,10 @@
 package com.crab.domain;
 
-import com.crab.enums.AccountNoStatusEnum;
 import com.crab.enums.AccountNoStatusEnumT;
 import lombok.Data;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -16,6 +16,7 @@ public class CrabUser {
      * 主键
      */
     @Id
+    @GeneratedValue(generator = "UUID")
     private String id;
 
     /**

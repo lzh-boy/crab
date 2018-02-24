@@ -19,6 +19,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
     public void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
         registry.addInterceptor(vueViewInterceptor).addPathPatterns("/page/**")
-                .excludePathPatterns("/page/crab/user/login", "/page/crab/token/getPwdSecretKey");
+                .excludePathPatterns("/page/crab/user/login"
+                        , "/page/crab/token/getPwdSecretKey"
+                        , "/page/crab/msgboard/saveContent"
+                        , "/page/crab/msgboard/queryContentList");
     }
 }

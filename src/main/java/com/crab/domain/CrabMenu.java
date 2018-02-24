@@ -3,6 +3,7 @@ package com.crab.domain;
 import lombok.Data;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,6 +14,7 @@ public class CrabMenu {
      * 主键
      */
     @Id
+    @GeneratedValue(generator = "UUID")
     private String id;
 
     /**
