@@ -28,7 +28,7 @@ public class CrossDomainConfig {
                 log.info("---------------进入跨域配置");
                 // /page/** 后面的/**一定要加!
                 registry.addMapping("/page/**")
-                        .allowedOrigins("*", restConfig.getHomeUrl(), "http://21crab.com");
+                        .allowedOrigins(restConfig.getHomeUrl());
                 log.info("---------------跨域配置完成");
             }
         };
