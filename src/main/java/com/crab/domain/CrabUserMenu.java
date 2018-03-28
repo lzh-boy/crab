@@ -6,10 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Data
 @Table(name = "tbl_crab_user_menu")
-public class CrabUserMenu {
+public class CrabUserMenu implements Serializable{
+    private static final long serialVersionUID = -2956491731924776644L;
     @Id
     @GeneratedValue(generator = "UUID")
     private String id;

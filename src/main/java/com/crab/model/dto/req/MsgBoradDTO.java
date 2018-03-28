@@ -1,4 +1,4 @@
-package com.crab.model.dto;
+package com.crab.model.dto.req;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
@@ -13,4 +13,9 @@ public class MsgBoradDTO implements Serializable {
      */
     @NotBlank(message = "留言内容不能空!")
     private String content;
+
+    /**
+     * 用户昵称
+     */
+    private String userNickName;
 }

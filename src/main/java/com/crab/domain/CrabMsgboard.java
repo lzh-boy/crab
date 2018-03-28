@@ -8,11 +8,13 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Table(name = "tbl_crab_msgboard")
-public class CrabMsgboard {
+public class CrabMsgboard implements Serializable{
+    private static final long serialVersionUID = 5847356736846697664L;
     /**
      * 主键
      */

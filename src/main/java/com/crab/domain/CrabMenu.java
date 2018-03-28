@@ -6,10 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Data
 @Table(name = "tbl_crab_menu")
-public class CrabMenu {
+public class CrabMenu implements Serializable{
+    private static final long serialVersionUID = -8838005127472552263L;
     /**
      * 主键
      */

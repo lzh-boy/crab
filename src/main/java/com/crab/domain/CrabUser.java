@@ -7,11 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Table(name = "tbl_crab_user")
-public class CrabUser {
+public class CrabUser implements Serializable{
+    private static final long serialVersionUID = 7287802445217678421L;
     /**
      * 主键
      */

@@ -4,7 +4,7 @@ import com.crab.common.exception.BusinessException;
 import com.crab.domain.CrabUser;
 import com.crab.mapper.CrabUserMapper;
 import com.crab.model.bo.UserMsgBO;
-import com.crab.model.dto.UserLoginDTO;
+import com.crab.model.dto.req.UserLoginDTO;
 import com.crab.model.vo.UserLoginVO;
 import com.crab.service.CrabUserService;
 import com.crab.service.TokenService;
@@ -12,7 +12,6 @@ import com.crab.utils.*;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +25,6 @@ import java.util.List;
 
 import static com.crab.constants.AuthConstant.PWD_SECRET_KEY;
 import static com.crab.constants.AuthConstant.THREAD_LOCAL_TOKEN;
-import static com.crab.constants.AuthConstant.TOKEN_KEY;
 
 /**
  *

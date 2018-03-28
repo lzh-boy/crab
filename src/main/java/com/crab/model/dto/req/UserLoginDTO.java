@@ -1,4 +1,4 @@
-package com.crab.model.dto;
+package com.crab.model.dto.req;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -9,11 +9,12 @@ import java.io.Serializable;
 public class UserLoginDTO implements Serializable{
 
 
+    private static final long serialVersionUID = 1926080359850849059L;
+
     private String loginName;
 
     private String loginPwd;
 
-    @NotEmpty(message = "验证码不能为空!")
     private String accessCode;
 
 

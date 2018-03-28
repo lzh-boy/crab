@@ -2,7 +2,7 @@ package com.crab.service;
 
 import com.crab.domain.CrabUser;
 import com.crab.model.bo.UserMsgBO;
-import com.crab.model.dto.UserLoginDTO;
+import com.crab.model.dto.req.UserLoginDTO;
 import com.crab.model.vo.UserLoginVO;
 
 import javax.servlet.http.HttpServletRequest;

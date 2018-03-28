@@ -5,7 +5,7 @@ import com.crab.common.model.vo.wrap.WrapMapper;
 import com.crab.common.model.vo.wrap.Wrapper;
 import com.crab.domain.CrabMenu;
 import com.crab.model.bo.UserMsgBO;
-import com.crab.model.dto.UserLoginDTO;
+import com.crab.model.dto.req.UserLoginDTO;
 import com.crab.model.vo.UserLoginVO;
 import com.crab.service.CrabUserMenuService;
 import com.crab.service.CrabUserService;

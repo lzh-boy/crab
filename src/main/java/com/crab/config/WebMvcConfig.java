@@ -22,6 +22,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
                 .excludePathPatterns("/page/crab/user/login"
                         , "/page/crab/token/getPwdSecretKey"
                         , "/page/crab/msgboard/saveContent"
-                        , "/page/crab/msgboard/queryContentList");
+                        , "/page/crab/msgboard/queryContentList"
+                        , "/page/crab/blog/queryContentDetail"
+                        , "/page/crab/blog/queryContentList");
     }
 }

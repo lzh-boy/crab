@@ -1,4 +1,4 @@
-package com.crab.model.dto;
+package com.crab.model.dto.req;
 
 import lombok.Data;
 
