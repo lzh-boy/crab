@@ -34,4 +34,12 @@ public interface CrabBlogService extends IService<CrabBlog> {
      * @return
      */
     CrabBlog queryContentDetail(QueryBlogReqDTO reqDTO) throws BusinessException;
+
+    /**
+     * 更新博客
+     * @param blogSaveReqDTO
+     * @param userMsgByToken
+     * @param request
+     */
+    void updateContent(BlogSaveReqDTO blogSaveReqDTO, UserMsgBO userMsgByToken, HttpServletRequest request) throws BusinessException;
 }

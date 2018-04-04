@@ -54,6 +54,24 @@ public class CrabBlogRestController extends BaseController{
     }
 
     /**
+     * 更新文章
+     * @param blogSaveReqDTO
+     * @return
+     */
+    @RequestMapping(value = "updateContent", method = RequestMethod.POST)
+    public Wrapper updateContent(@RequestBody @Valid BlogSaveReqDTO blogSaveReqDTO, BindingResult bindingResult, HttpServletRequest request) {
+        log.info("更新文章 ==> {}", blogSaveReqDTO);
+        try {
+            handleBindingResult(bindingResult);
+            UserMsgBO userMsgByToken = getUserMsgByToken();
+            crabBlogService.updateContent(blogSaveReqDTO, userMsgByToken, request);
+        } catch (Exception ex) {
+            return WrapperUtil.handleException(ex);
+        }
+        return WrapMapper.wrap(Wrapper.SUCCESS_CODE, Wrapper.SUCCESS_MSG);
+    }
+
+    /**
      * 查询文章列表
      * @param page
      * @return

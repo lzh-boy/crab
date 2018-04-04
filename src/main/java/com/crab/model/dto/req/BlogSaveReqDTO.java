@@ -10,6 +10,8 @@ public class BlogSaveReqDTO implements Serializable{
 
     private static final long serialVersionUID = -6127966034409463398L;
 
+    private String id;
+
     /**
      * 文章标题
      */

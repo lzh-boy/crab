@@ -82,4 +82,28 @@ public class CrabBlogServiceImpl extends BaseService<CrabBlog> implements CrabBl
         }
         return blogs.get(0);
     }
+
+    /**
+     * 更新博客
+     * @param blogSaveReqDTO
+     * @param userMsgByToken
+     * @param request
+     */
+    @Override
+    public void updateContent(BlogSaveReqDTO blogSaveReqDTO, UserMsgBO userMsgByToken, HttpServletRequest request) throws BusinessException {
+        log.info("更新博客业务类 blogSaveReqDTO ==> {}", blogSaveReqDTO);
+        log.info("更新博客业务类 userMsgByToken ==> {}", userMsgByToken);
+        if (null == blogSaveReqDTO || null == userMsgByToken) {
+            throw new BusinessException(Wrapper.UNKOWN_ERROR_MSG);
+        }
+        CrabBlog crabBlog = new CrabBlog();
+        BeanUtils.copyProperties(blogSaveReqDTO, crabBlog);
+        Date now = new Date();
+        crabBlog.setUpdateTime(now);
+        crabBlog.setUpdateUser(userMsgByToken.getSerialNo());
+        int update = super.update(crabBlog);
+        if (update == 0) {
+            throw new BusinessException("更新博客失败!");
+        }
+    }
 }
